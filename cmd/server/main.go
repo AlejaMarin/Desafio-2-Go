@@ -1,5 +1,53 @@
 package main
 
+import (
+	"database/sql"
+	"net/http"
+	"os"
+
+	"github.com/AlejaMarin/Desafio-2-Go/cmd/server/handler"
+	"github.com/AlejaMarin/Desafio-2-Go/internal/paciente"
+	"github.com/AlejaMarin/Desafio-2-Go/pkg/store"
+	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
+)
+
 func main() {
+
+	if err := godotenv.Load(); err != nil {
+		panic("Error loading .env file: " + err.Error())
+	}
+
+	user := os.Getenv("USER")
+	password := os.Getenv("PASSWORD")
+	host := os.Getenv("HOST")
+	port := os.Getenv("PORT")
+	database := os.Getenv("DATABASE")
+	dataSourceName := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + database
+
+	db, err := sql.Open("mysql", dataSourceName)
+	if err != nil {
+		panic(err)
+	}
+	storage := store.NewSqlStore(db)
+
+	patientRepo := paciente.NewRepository(storage)
+	patientService := paciente.NewService(patientRepo)
+	patientHandler := handler.NewPatientHandler(patientService)
+
+	r := gin.Default()
+
+	r.GET("/ping", func(c *gin.Context) { c.String(http.StatusOK, "pong") })
+	patients := r.Group("/pacientes")
+	{
+		patients.GET(":id", patientHandler.GetByID())
+		patients.POST("", patientHandler.Post())
+		patients.PUT(":id", patientHandler.Put())
+		patients.PATCH(":id", patientHandler.Patch())
+		patients.DELETE(":id", patientHandler.Delete())
+	}
+
+	r.Run(":8080")
 
 }
