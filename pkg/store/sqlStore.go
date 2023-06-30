@@ -203,3 +203,86 @@ func (s *sqlStore) ExistsDentistByMatricula(Matricula string) bool {
 	}
 	return false
 }
+
+func (s *sqlStore) GetShiftById(id int) (domain.Turno, error) {
+
+	var shift domain.Turno
+
+	query := "SELECT id, idPaciente, idDentista, fecha, hora, descripcion FROM turno WHERE id = ?;"
+	row := s.DB.QueryRow(query, id)
+	err := row.Scan(&shift.Id, &shift.IdPaciente, &shift.IdDentista, &shift.Fecha, &shift.Hora, &shift.Descripcion)
+	if err != nil {
+		return domain.Turno{}, err
+	}
+	return shift, nil
+
+}
+
+func (s *sqlStore) CreateShift(t domain.Turno) (int, error) {
+
+	query := "INSERT INTO turno(idPaciente, idDentista, fecha, hora, descripcion) VALUES(?, ?, ?, ?, ?)"
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return 0, err
+	}
+	defer stmt.Close()
+	res, err := stmt.Exec(t.IdPaciente, t.IdDentista, t.Fecha, t.Hora, t.Descripcion)
+	if err != nil {
+		return 0, err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+
+	var id int
+
+	q := "SELECT MAX(id) FROM turno;"
+	row := s.DB.QueryRow(q)
+	err = row.Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+
+}
+
+func (s *sqlStore) UpdateShift(t domain.Turno) error {
+
+	query := "UPDATE turno SET idPaciente = ?, idDentista = ?, fecha = ?, hora = ?, descripcion = ? WHERE id = ?;"
+
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	res, err := stmt.Exec(t.IdPaciente, t.IdDentista, t.Fecha, t.Hora, t.Descripcion, t.Id)
+	if err != nil {
+		return err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
+func (s *sqlStore) ExistsShift(f, h string, idD int) bool {
+
+	query := "SELECT id FROM turno WHERE fecha = ? AND hora = ? AND idDentista = ?"
+	row := s.DB.QueryRow(query, f, h, idD)
+	var id int
+	err := row.Scan(&id)
+	if err != nil {
+		return false
+	}
+
+	if id > 0 {
+		return true
+	}
+	return false
+}

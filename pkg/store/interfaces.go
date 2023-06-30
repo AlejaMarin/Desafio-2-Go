@@ -13,4 +13,8 @@ type StoreInterface interface {
 	UpdatePatient(p domain.Paciente) error
 	DeletePatient(id int) error
 	ExistsPatientByDNI(DNI string) bool
+	GetShiftById(id int) (domain.Turno, error)
+	CreateShift(t domain.Turno) (int, error)
+	UpdateShift(t domain.Turno) error
+	ExistsShift(f, h string, idD int) bool
 }
