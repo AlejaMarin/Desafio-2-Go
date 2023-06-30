@@ -7,6 +7,7 @@ import (
 
 	"github.com/AlejaMarin/Desafio-2-Go/cmd/server/handler"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/dentista"
+  "github.com/AlejaMarin/Desafio-2-Go/internal/paciente"
 	"github.com/AlejaMarin/Desafio-2-Go/pkg/store"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -32,13 +33,19 @@ func main() {
 	}
 	storage := store.NewSqlStore(db)
 
+
 	dentistRepo := dentista.NewRepository(storage)
 	denstistService := dentista.NewService(dentistRepo)
 	dentistHandler := handler.NewDentistHandler(denstistService)
+	patientRepo := paciente.NewRepository(storage)
+	patientService := paciente.NewService(patientRepo)
+	patientHandler := handler.NewPatientHandler(patientService)
+
 
 	r := gin.Default()
 
 	r.GET("/ping", func(c *gin.Context) { c.String(http.StatusOK, "pong") })
+
 	dentists := r.Group("/dentistas")
 	{
 		dentists.GET(":id", dentistHandler.GetByID())
@@ -46,6 +53,14 @@ func main() {
 		dentists.PUT(":id", dentistHandler.Put())
 		dentists.PATCH(":id", dentistHandler.Patch())
 		dentists.DELETE(":id", dentistHandler.Delete())
+
+	patients := r.Group("/pacientes")
+	{
+		patients.GET(":id", patientHandler.GetByID())
+		patients.POST("", patientHandler.Post())
+		patients.PUT(":id", patientHandler.Put())
+		patients.PATCH(":id", patientHandler.Patch())
+		patients.DELETE(":id", patientHandler.Delete())
 	}
 
 	r.Run(":8080")

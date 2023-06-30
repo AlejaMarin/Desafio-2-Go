@@ -8,4 +8,9 @@ type StoreInterface interface {
 	UpdateDentist(d domain.Dentista) error
 	DeleteDentist(id int) error
 	ExistsDentistByMatricula(Matricula string) bool
+	GetPatientById(id int) (domain.Paciente, error)
+	CreatePatient(p domain.Paciente) (int, error)
+	UpdatePatient(p domain.Paciente) error
+	DeletePatient(id int) error
+	ExistsPatientByDNI(DNI string) bool
 }
