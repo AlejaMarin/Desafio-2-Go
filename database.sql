@@ -78,7 +78,7 @@ CREATE TABLE `paciente` (
 
 LOCK TABLES `paciente` WRITE;
 /*!40000 ALTER TABLE `paciente` DISABLE KEYS */;
-INSERT INTO `paciente` VALUES (1,'Aguero','Fabiana','Santa Fe 167','37715650','22/04/2023',1),(2,'Alvarez','Mercedes','Belgrano 79','28657827','2/03/2022',1),(3,'Battaglino','Facundo','Cordoba 571','42891027','14/06/2023',1),(4,'Faricelli','Luciana','Libertad 699','34332105','12/12/2022',1),(5,'Fernandez','Alvaro','General Paz 379','30587951','30/05/2023',1),(6,'Ghiglione','Walter','Independencia 274','42187452','10/01/2023',1),(7,'Heffner','Noelia','Mitre 847','29514021','16/10/2022',1),(8,'Martinez','Yanina','Laprida 150','36450508','1/04/2023',1),(9,'Molina','Maximiliano','Cordoba 601','20501489','2/03/2023',1),(10,'Ortiz','Gloria','9 de Julio 489','14991748','26/02/2023',1),(11,'Paulucci','Miguel','San Martin 5813','27592186','11/05/2022',1),(12,'Pretti','Analia','Av. Forestal 580','35861381','18/05/2023',1),(13,'Roccia','Eduardo','San Luis 254','20158748','17/01/2023',1),(14,'Ruffino','Mauricio','Avellaneda 560','23437943','24/08/2022',1),(15,'Vogliotti','Lucas','Buenos Aire 569','40202446','27/06/2023',1);
+INSERT INTO `paciente` VALUES (1,'Fabiana','Aguero','Santa Fe 167','37715650','22/04/2023',1),(2,'Mercedes','Alvarez','Belgrano 79','28657827','2/03/2022',1),(3,'Facundo','Battaglino','Cordoba 571','42891027','14/06/2023',1),(4,'Luciana','Faricelli','Libertad 699','34332105','12/12/2022',1),(5,'Alvaro','Fernandez','General Paz 379','30587951','30/05/2023',1),(6,'Walter','Ghiglione','Independencia 274','42187452','10/01/2023',1),(7,'Noelia','Heffner','Mitre 847','29514021','16/10/2022',1),(8,'Yanina','Martinez','Laprida 150','36450508','1/04/2023',1),(9,'Maximiliano','Molina','Cordoba 601','20501489','2/03/2023',1),(10,'Gloria','Ortiz','9 de Julio 489','14991748','26/02/2023',1),(11,'Miguel','Paulucci','San Martin 5813','27592186','11/05/2022',1),(12,'Analia','Pretti','Av. Forestal 580','35861381','18/05/2023',1),(13,'Eduardo','Roccia','San Luis 254','20158748','17/01/2023',1),(14,'Mauricio','Ruffino','Avellaneda 560','23437943','24/08/2022',1),(15,'Lucas','Vogliotti','Buenos Aire 569','40202446','27/06/2023',1);
 /*!40000 ALTER TABLE `paciente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,11 +116,11 @@ UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 SET SQL_MODE = '';
-DROP USER IF EXISTS user1;
+DROP USER IF EXISTS user1@localhost;
 SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-CREATE USER 'user1' IDENTIFIED BY 'password1';
+CREATE USER 'user1'@'localhost' IDENTIFIED BY 'password1';
 
-GRANT ALL ON `reserva_turnos`.* TO 'user1';
+GRANT ALL ON `reserva_turnos`.* TO 'user1'@'localhost';
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
