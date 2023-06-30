@@ -33,7 +33,7 @@ func (r *repository) GetDentistById(id int) (domain.Dentista, error) {
 }
 
 func (r *repository) CreateDentist(d domain.Dentista) (domain.Dentista, error) {
-	
+
 	if r.storage.ExistsDentistByMatricula(d.Matricula) {
 		return domain.Dentista{}, errors.New("ya existe un odontólogo con la matrícula ingresada")
 	}

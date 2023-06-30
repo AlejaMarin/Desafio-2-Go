@@ -38,7 +38,7 @@ func (h *dentistHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
-func validateEmptys(dentist *domain.Dentista) (bool, error) {
+func validateEmptysDentist(dentist *domain.Dentista) (bool, error) {
 	if dentist.Apellido == "" || dentist.Nombre == "" || dentist.Matricula == "" {
 		return false, errors.New("todos los campos deben estar completos")
 	}
@@ -53,7 +53,7 @@ func (h *dentistHandler) Post() gin.HandlerFunc {
 			web.Failure(c, http.StatusBadRequest, errors.New("json inválido"))
 			return
 		}
-		valid, err := validateEmptys(&d)
+		valid, err := validateEmptysDentist(&d)
 		if !valid {
 			web.Failure(c, http.StatusBadRequest, err)
 			return
@@ -86,7 +86,7 @@ func (h *dentistHandler) Put() gin.HandlerFunc {
 			web.Failure(c, http.StatusBadRequest, errors.New("JSON Inválido"))
 			return
 		}
-		valid, err := validateEmptys(&dentist)
+		valid, err := validateEmptysDentist(&dentist)
 		if !valid {
 			web.Failure(c, http.StatusBadRequest, err)
 			return
