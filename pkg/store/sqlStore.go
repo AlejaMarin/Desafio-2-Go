@@ -109,3 +109,97 @@ func (s *sqlStore) ExistsPatientByDNI(DNI string) bool {
 	}
 	return false
 }
+
+func (s *sqlStore) GetDentistById(id int) (domain.Dentista, error) {
+
+	var dentist domain.Dentista
+
+	query := "SELECT id, apellido, nombre, matricula FROM dentista WHERE id = ? AND activo = ?;"
+	row := s.DB.QueryRow(query, id, true)
+	err := row.Scan(&dentist.Id, &dentist.Apellido, &dentist.Nombre, &dentist.Matricula)
+	if err != nil {
+		return domain.Dentista{}, err
+	}
+	return dentist, nil
+
+}
+
+func (s *sqlStore) CreateDentist(d domain.Dentista) (int, error) {
+
+	query := "INSERT INTO dentista(apellido, nombre, matricula, activo) VALUES(?, ?, ?, ?)"
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return 0, err
+	}
+	defer stmt.Close()
+	res, err := stmt.Exec(d.Apellido, d.Nombre, d.Matricula, true)
+	if err != nil {
+		return 0, err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+
+	var id int
+
+	q := "SELECT MAX(id) FROM dentista;"
+	row := s.DB.QueryRow(q)
+	err = row.Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+
+}
+
+func (s *sqlStore) UpdateDentist(d domain.Dentista) error {
+
+	query := "UPDATE dentista SET apellido = ?, nombre = ?, matricula = ? WHERE id = ? AND activo = ?;"
+
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	res, err := stmt.Exec(d.Apellido, d.Nombre, d.Matricula, d.Id, true)
+	if err != nil {
+		return err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
+func (s *sqlStore) DeleteDentist(id int) error {
+
+	query := "UPDATE dentista SET activo = ? WHERE id = ?"
+	_, err := s.DB.Exec(query, false, id)
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
+func (s *sqlStore) ExistsDentistByMatricula(Matricula string) bool {
+
+	query := "SELECT id FROM dentista WHERE matricula = ?"
+	row := s.DB.QueryRow(query, Matricula)
+	var id int
+	err := row.Scan(&id)
+	if err != nil {
+		return false
+	}
+
+	if id > 0 {
+		return true
+	}
+	return false
+}
