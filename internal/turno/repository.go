@@ -53,15 +53,14 @@ func (r *repository) UpdateShift(id int, t domain.Turno) (domain.Turno, error) {
 	if err != nil {
 		return domain.Turno{}, err
 	}
-	
 
 	if r.storage.ExistsShift(t.Fecha, t.Hora, t.IdDentista) {
 		if t.Fecha != shift.Fecha && t.Hora != shift.Hora && t.IdDentista != shift.IdDentista {
 			return domain.Turno{}, errors.New("Ya hay un Turno asignado para esa Fecha, Hora y Dentista")
-		}	
+		}
 		return domain.Turno{}, errors.New("Ya hay un Turno asignado para esa Fecha, Hora y Dentista")
 	}
-	
+
 	err = r.storage.UpdateShift(t)
 	if err != nil {
 		return domain.Turno{}, errors.New("No se pudo actualizar el turno")
@@ -78,7 +77,6 @@ func (r *repository) DeleteShift(id int) error {
 	return nil
 }
 
-
 func (r *repository) CreateShiftByDniAndEnrollment(t2 domain.TurnoDos) (domain.Turno, error) {
 	var shift domain.Turno
 	idP, err := r.storage.GetPatientIdByDni(t2.DniPaciente)
@@ -89,11 +87,11 @@ func (r *repository) CreateShiftByDniAndEnrollment(t2 domain.TurnoDos) (domain.T
 	if err != nil {
 		return domain.Turno{}, errors.New("El odontólogo no existe")
 	}
-	shift = domain.Turno {
-		IdPaciente: idP,
-		IdDentista: idD,
-		Fecha: t2.Fecha,
-		Hora: t2.Hora,
+	shift = domain.Turno{
+		IdPaciente:  idP,
+		IdDentista:  idD,
+		Fecha:       t2.Fecha,
+		Hora:        t2.Hora,
 		Descripcion: t2.Descripcion,
 	}
 
@@ -111,7 +109,7 @@ func (r *repository) GetShiftsByDniPatient(dni string) ([]domain.TurnoByDni, err
 	if !r.storage.ExistsPatientByDNI(dni) {
 		return nil, errors.New("No existe un paciente con el DNI ingresado")
 	}
-	
+
 	shifts, err := r.storage.GetShiftsByDniPatient(dni)
 	if err != nil {
 		return nil, errors.New("No se pudo obtener el/los turno/s")

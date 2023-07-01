@@ -9,6 +9,7 @@ import (
 	"github.com/AlejaMarin/Desafio-2-Go/internal/dentista"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/paciente"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/turno"
+	"github.com/AlejaMarin/Desafio-2-Go/pkg/middleware"
 	"github.com/AlejaMarin/Desafio-2-Go/pkg/store"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -51,27 +52,27 @@ func main() {
 	dentists := r.Group("/dentistas")
 	{
 		dentists.GET(":id", dentistHandler.GetByID())
-		dentists.POST("", dentistHandler.Post())
-		dentists.PUT(":id", dentistHandler.Put())
-		dentists.PATCH(":id", dentistHandler.Patch())
-		dentists.DELETE(":id", dentistHandler.Delete())
+		dentists.POST("", middleware.TokenAuthMiddleware(), dentistHandler.Post())
+		dentists.PUT(":id", middleware.TokenAuthMiddleware(), dentistHandler.Put())
+		dentists.PATCH(":id", middleware.TokenAuthMiddleware(), dentistHandler.Patch())
+		dentists.DELETE(":id", middleware.TokenAuthMiddleware(), dentistHandler.Delete())
 	}
 	patients := r.Group("/pacientes")
 	{
 		patients.GET(":id", patientHandler.GetByID())
-		patients.POST("", patientHandler.Post())
-		patients.PUT(":id", patientHandler.Put())
-		patients.PATCH(":id", patientHandler.Patch())
-		patients.DELETE(":id", patientHandler.Delete())
+		patients.POST("", middleware.TokenAuthMiddleware(), patientHandler.Post())
+		patients.PUT(":id", middleware.TokenAuthMiddleware(), patientHandler.Put())
+		patients.PATCH(":id", middleware.TokenAuthMiddleware(), patientHandler.Patch())
+		patients.DELETE(":id", middleware.TokenAuthMiddleware(), patientHandler.Delete())
 	}
 	shifts := r.Group("/turnos")
 	{
 		shifts.GET(":id", shiftHandler.GetByID())
-		shifts.POST("", shiftHandler.Post())
-		shifts.PUT(":id", shiftHandler.Put())
-		shifts.PATCH(":id", shiftHandler.Patch())
-		shifts.DELETE(":id", shiftHandler.Delete())
-		shifts.POST("/pacientedentista", shiftHandler.PostDos())
+		shifts.POST("", middleware.TokenAuthMiddleware(), shiftHandler.Post())
+		shifts.PUT(":id", middleware.TokenAuthMiddleware(), shiftHandler.Put())
+		shifts.PATCH(":id", middleware.TokenAuthMiddleware(), shiftHandler.Patch())
+		shifts.DELETE(":id", middleware.TokenAuthMiddleware(), shiftHandler.Delete())
+		shifts.POST("/pacientedentista", middleware.TokenAuthMiddleware(), shiftHandler.PostDos())
 		shifts.GET("", shiftHandler.GetByDni())
 	}
 
