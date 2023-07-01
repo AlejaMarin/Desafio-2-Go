@@ -125,10 +125,10 @@ func (h *shiftHandler) Put() gin.HandlerFunc {
 func (h *shiftHandler) Patch() gin.HandlerFunc {
 
 	type Request struct {
-		IdPaciente int `json:"idPaciente,omitempty"`
-		IdDentista int `json:"idDentista,omitempty"`
-		Fecha string `json:"fecha,omitempty"`
-		Hora string `json:"hora,omitempty"`
+		IdPaciente  int    `json:"idPaciente,omitempty"`
+		IdDentista  int    `json:"idDentista,omitempty"`
+		Fecha       string `json:"fecha,omitempty"`
+		Hora        string `json:"hora,omitempty"`
 		Descripcion string `json:"descripcion,omitempty"`
 	}
 
@@ -150,13 +150,13 @@ func (h *shiftHandler) Patch() gin.HandlerFunc {
 			return
 		}
 		update := domain.Turno{
-			IdPaciente: r.IdPaciente,
-			IdDentista: r.IdDentista,
-			Fecha: r.Fecha,
-			Hora:  r.Hora,
+			IdPaciente:  r.IdPaciente,
+			IdDentista:  r.IdDentista,
+			Fecha:       r.Fecha,
+			Hora:        r.Hora,
 			Descripcion: r.Descripcion,
 		}
-		if update.Fecha != ""{
+		if update.Fecha != "" {
 			valid, err := validateDate(update.Fecha)
 			if !valid {
 				web.Failure(c, http.StatusBadRequest, err)
@@ -164,10 +164,10 @@ func (h *shiftHandler) Patch() gin.HandlerFunc {
 			}
 		}
 		/*
-		if update.IdDentista != 0 || update.IdPaciente <= 0 {
-			web.Failure(c, http.StatusBadRequest, err)
-			return
-		}
+			if update.IdDentista != 0 || update.IdPaciente <= 0 {
+				web.Failure(c, http.StatusBadRequest, err)
+				return
+			}
 		*/
 		t, err := h.s.UpdateShift(id, update)
 		if err != nil {
@@ -176,7 +176,7 @@ func (h *shiftHandler) Patch() gin.HandlerFunc {
 		}
 		web.Success(c, http.StatusOK, t)
 	}
-	
+
 }
 
 func (h *shiftHandler) Delete() gin.HandlerFunc {
@@ -237,7 +237,7 @@ func validateEmptysShiftTwo(shift *domain.TurnoDos) (bool, error) {
 
 func (h *shiftHandler) GetByDni() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		dni:= c.Query("dni")
+		dni := c.Query("dni")
 		turnos, err := h.s.GetShiftsByDniPatient(dni)
 		if err != nil {
 			web.Failure(c, http.StatusBadRequest, err)

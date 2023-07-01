@@ -333,7 +333,7 @@ func (s *sqlStore) GetDentistByMatricula(matricula string) (int, error) {
 
 func (s *sqlStore) GetShiftsByDniPatient(dni string) ([]domain.TurnoByDni, error) {
 	query := "SELECT t.fecha, t.hora, t.descripcion, p.id, p.nombre, p.apellido, p.domicilio, p.dni, d.id, d.apellido, d.nombre, d.matricula FROM turno t LEFT JOIN paciente p ON p.id = t.idPaciente LEFT JOIN dentista d ON d.id = t.idDentista WHERE p.dni = ?;"
-	rows, err := s.DB.Query(query,dni)
+	rows, err := s.DB.Query(query, dni)
 	if err != nil {
 		return nil, err
 	}
