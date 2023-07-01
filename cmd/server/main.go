@@ -8,6 +8,7 @@ import (
 	"github.com/AlejaMarin/Desafio-2-Go/cmd/server/handler"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/dentista"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/paciente"
+	"github.com/AlejaMarin/Desafio-2-Go/internal/turno"
 	"github.com/AlejaMarin/Desafio-2-Go/pkg/store"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -39,6 +40,9 @@ func main() {
 	patientRepo := paciente.NewRepository(storage)
 	patientService := paciente.NewService(patientRepo)
 	patientHandler := handler.NewPatientHandler(patientService)
+	shiftRepo := turno.NewRepository(storage)
+	shiftService := turno.NewService(shiftRepo)
+	shiftHandler := handler.NewShiftHandler(shiftService)
 
 	r := gin.Default()
 
@@ -59,6 +63,16 @@ func main() {
 		patients.PUT(":id", patientHandler.Put())
 		patients.PATCH(":id", patientHandler.Patch())
 		patients.DELETE(":id", patientHandler.Delete())
+	}
+	shifts := r.Group("/turnos")
+	{
+		shifts.GET(":id", shiftHandler.GetByID())
+		shifts.POST("", shiftHandler.Post())
+		shifts.PUT(":id", shiftHandler.Put())
+		shifts.PATCH(":id", shiftHandler.Patch())
+		shifts.DELETE(":id", shiftHandler.Delete())
+		shifts.POST("/pacientedentista", shiftHandler.PostDos())
+		shifts.GET("", shiftHandler.GetByDni())
 	}
 
 	r.Run(":8080")
