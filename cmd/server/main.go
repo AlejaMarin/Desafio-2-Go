@@ -69,6 +69,10 @@ func main() {
 		shifts.GET(":id", shiftHandler.GetByID())
 		shifts.POST("", shiftHandler.Post())
 		shifts.PUT(":id", shiftHandler.Put())
+		shifts.PATCH(":id", shiftHandler.Patch())
+		shifts.DELETE(":id", shiftHandler.Delete())
+		shifts.POST("/pacientedentista", shiftHandler.PostDos())
+		shifts.GET("", shiftHandler.GetByDni())
 	}
 
 	r.Run(":8080")

@@ -6,6 +6,9 @@ type Service interface {
 	GetShiftById(id int) (domain.Turno, error)
 	CreateShift(t domain.Turno) (domain.Turno, error)
 	UpdateShift(id int, x domain.Turno) (domain.Turno, error)
+	DeleteShift(id int) error
+	CreateShiftByDniAndEnrollment(t2 domain.TurnoDos) (domain.Turno, error)
+	GetShiftsByDniPatient(dni string) ([]domain.TurnoByDni, error)
 }
 
 type service struct {
@@ -60,4 +63,30 @@ func (s *service) UpdateShift(id int, x domain.Turno) (domain.Turno, error) {
 		return domain.Turno{}, err
 	}
 	return t, nil
+}
+
+func (s *service) DeleteShift(id int) error {
+
+	err := s.r.DeleteShift(id)
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
+func (s *service) CreateShiftByDniAndEnrollment(t2 domain.TurnoDos) (domain.Turno, error) {
+	t, err := s.r.CreateShiftByDniAndEnrollment(t2)
+	if err != nil {
+		return domain.Turno{}, err
+	}
+	return t, nil
+}
+
+func (s *service) GetShiftsByDniPatient(dni string) ([]domain.TurnoByDni, error) {
+	shifts, err := s.r.GetShiftsByDniPatient(dni)
+	if err != nil {
+		return nil, err
+	}
+	return shifts, nil
 }

@@ -2,6 +2,7 @@ package store
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/AlejaMarin/Desafio-2-Go/internal/domain"
 )
@@ -285,4 +286,68 @@ func (s *sqlStore) ExistsShift(f, h string, idD int) bool {
 		return true
 	}
 	return false
+}
+
+func (s *sqlStore) DeleteShift(id int) error {
+	query := "DELETE FROM turno WHERE id = ?"
+	_, err := s.DB.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	/*
+		row, err := res.RowsAffected()
+		if err != nil {
+			return err
+		}
+		if row == 0 {
+			return errors.New("El turno que se quiere eliminar no existe")
+		}
+	*/
+	return nil
+
+}
+
+func (s *sqlStore) GetPatientIdByDni(dni string) (int, error) {
+	query := "SELECT id FROM paciente WHERE dni = ?;"
+	row := s.DB.QueryRow(query, dni)
+	var id int
+	err := row.Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
+
+func (s *sqlStore) GetDentistByMatricula(matricula string) (int, error) {
+	query := "SELECT id FROM dentista WHERE matricula = ?;"
+	row := s.DB.QueryRow(query, matricula)
+	var id int
+	err := row.Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
+
+func (s *sqlStore) GetShiftsByDniPatient(dni string) ([]domain.TurnoByDni, error) {
+	query := "SELECT t.fecha, t.hora, t.descripcion, p.id, p.nombre, p.apellido, p.domicilio, p.dni, d.id, d.apellido, d.nombre, d.matricula FROM turno t LEFT JOIN paciente p ON p.id = t.idPaciente LEFT JOIN dentista d ON d.id = t.idDentista WHERE p.dni = ?;"
+	rows, err := s.DB.Query(query,dni)
+	if err != nil {
+		return nil, err
+	}
+	var t domain.TurnoByDni
+	var turnos []domain.TurnoByDni
+
+	for rows.Next() {
+		err := rows.Scan(&t.Fecha, &t.Hora, &t.Descripcion, &t.Paciente.Id, &t.Paciente.Nombre, &t.Paciente.Apellido, &t.Paciente.Domicilio, &t.Paciente.DNI, &t.Dentista.Id, &t.Dentista.Apellido, &t.Dentista.Nombre, &t.Dentista.Matricula)
+		if err != nil {
+			log.Println(err.Error())
+			return nil, err
+		} else {
+			turnos = append(turnos, t)
+		}
+	}
+	return turnos, nil
 }
