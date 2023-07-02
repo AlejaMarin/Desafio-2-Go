@@ -15,12 +15,30 @@ type shiftHandler struct {
 	s turno.Service
 }
 
+type RequestTurno struct {
+	IdPaciente  int    `json:"idPaciente,omitempty"`
+	IdDentista  int    `json:"idDentista,omitempty"`
+	Fecha       string `json:"fecha,omitempty"`
+	Hora        string `json:"hora,omitempty"`
+	Descripcion string `json:"descripcion,omitempty"`
+}
+
 func NewShiftHandler(s turno.Service) *shiftHandler {
 	return &shiftHandler{
 		s: s,
 	}
 }
 
+// GetShiftById godoc
+// @Summary Obtener turno
+// @Description Obtener turno por ID
+// @Tags Turnos
+// @Produce json
+// @Param id path int true "id"
+// @Success 200 {object} domain.Turno
+// @Failure 400 {object} web.errorResponse
+// @Failure 404 {object} web.errorResponse
+// @Router /turnos/{id} [get]
 func (h *shiftHandler) GetByID() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -55,6 +73,17 @@ func validateEmptysShift(shift *domain.Turno) (bool, error) {
 	return true, nil
 }
 
+// SaveShift godoc
+// @Summary Agregar turno
+// @Description Agregar turno
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param token header string true "token"
+// @Param turno body domain.Turno true "Body shift"
+// @Success 201 {object} domain.Turno
+// @Failure 400 {object} web.errorResponse
+// @Router /turnos [post]
 func (h *shiftHandler) Post() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -83,6 +112,20 @@ func (h *shiftHandler) Post() gin.HandlerFunc {
 	}
 }
 
+// UpdateShift godoc
+// @Summary Actualizar turno
+// @Description Actualizar turno por ID
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param id path int true "id"
+// @Param token header string true "token"
+// @Param turno body domain.Turno true "Body shift"
+// @Success 200 {object} domain.Turno
+// @Failure 400 {object} web.errorResponse
+// @Failure 404 {object} web.errorResponse
+// @Failure 409 {object} web.errorResponse
+// @Router /turnos/{id} [put]
 func (h *shiftHandler) Put() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -122,18 +165,24 @@ func (h *shiftHandler) Put() gin.HandlerFunc {
 	}
 }
 
+// PartialUpdateShift godoc
+// @Summary Actualizar turno
+// @Description Actualizar un turno por alguno de sus campos
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param id path int true "id"
+// @Param token header string true "token"
+// @Param request body handler.RequestTurno true "Request body"
+// @Success 200 {object} domain.Turno
+// @Failure 400 {object} web.errorResponse
+// @Failure 404 {object} web.errorResponse
+// @Failure 409 {object} web.errorResponse
+// @Router /turnos/{id} [patch]
 func (h *shiftHandler) Patch() gin.HandlerFunc {
 
-	type Request struct {
-		IdPaciente  int    `json:"idPaciente,omitempty"`
-		IdDentista  int    `json:"idDentista,omitempty"`
-		Fecha       string `json:"fecha,omitempty"`
-		Hora        string `json:"hora,omitempty"`
-		Descripcion string `json:"descripcion,omitempty"`
-	}
-
 	return func(c *gin.Context) {
-		var r Request
+		var r RequestTurno
 		idParam := c.Param("id")
 		id, err := strconv.Atoi(idParam)
 		if err != nil {
@@ -179,6 +228,16 @@ func (h *shiftHandler) Patch() gin.HandlerFunc {
 
 }
 
+// DeleteTurno godoc
+// @Summary Eliminar turno
+// @Description Eliminar un turno por ID
+// @Tags Turnos
+// @Param id path int true "id"
+// @Param token header string true "token"
+// @Success 204
+// @Failure 400 {object} web.errorResponse
+// @Failure 404 {object} web.errorResponse
+// @Router /turnos/{id} [delete]
 func (h *shiftHandler) Delete() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -198,6 +257,17 @@ func (h *shiftHandler) Delete() gin.HandlerFunc {
 	}
 }
 
+// SaveShiftTwo godoc
+// @Summary Agregar turno
+// @Description Agregar turno por DNI del paciente y matrícula del dentista
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param token header string true "token"
+// @Param turno body domain.TurnoDos true "Body shift"
+// @Success 201 {object} domain.Turno
+// @Failure 400 {object} web.errorResponse
+// @Router /turnos/pacientedentista [post]
 func (h *shiftHandler) PostDos() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -235,6 +305,15 @@ func validateEmptysShiftTwo(shift *domain.TurnoDos) (bool, error) {
 	return true, nil
 }
 
+// GetShiftByDni godoc
+// @Summary Obtener turno
+// @Description Obtener turno por DNI del paciente
+// @Tags Turnos
+// @Produce json
+// @Param dni query string true "dni"
+// @Success 200 {array} domain.TurnoByDni
+// @Failure 400 {object} web.errorResponse
+// @Router /turnos [get]
 func (h *shiftHandler) GetByDni() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		dni := c.Query("dni")
