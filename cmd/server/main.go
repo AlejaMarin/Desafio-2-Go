@@ -28,8 +28,6 @@ import (
 // @contact.url    https://github.com/AlejaMarin/Desafio-2-Go
 
 // @schemes http
-
-
 func main() {
 	
 	if err := godotenv.Load(); err != nil {

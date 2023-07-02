@@ -1,3 +1,37 @@
+definitions:
+  domain.Dentista:
+    properties:
+      apellido:
+        type: string
+      id:
+        type: integer
+      matricula:
+        type: string
+      nombre:
+        type: string
+    required:
+    - apellido
+    - matricula
+    - nombre
+    type: object
+  handler.Request:
+    properties:
+      apellido:
+        type: string
+      matricula:
+        type: string
+      nombre:
+        type: string
+    type: object
+  web.errorResponse:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
 info:
   contact:
     name: Alejandra Marin - Vanesa Vilte
@@ -6,7 +40,178 @@ info:
     para una clínica odontológica.
   title: SISTEMA DE RESERVA DE TURNOS
   version: "1.0"
-paths: {}
+paths:
+  /dentistas:
+    post:
+      consumes:
+      - application/json
+      description: Crear dentista
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Body dentist
+        in: body
+        name: dentista
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentista'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Dentista'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Agregar dentista
+      tags:
+      - Dentistas
+  /dentistas/{id}:
+    delete:
+      description: Eliminar un dentista por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Eliminar dentista
+      tags:
+      - Dentistas
+    get:
+      description: Obtener dentista por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentista'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Obtener dentista
+      tags:
+      - Dentistas
+    patch:
+      consumes:
+      - application/json
+      description: Actualizar un dentista por alguno de sus campos
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentista'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Actualizar dentista
+      tags:
+      - Dentistas
+    put:
+      consumes:
+      - application/json
+      description: Actualizar dentista por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Body dentist
+        in: body
+        name: dentista
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentista'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentista'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Actualizar dentista
+      tags:
+      - Dentistas
 schemes:
 - http
 swagger: "2.0"
