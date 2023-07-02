@@ -1,0 +1,378 @@
+{
+	"info": {
+		"_postman_id": "ee133c60-33ca-47e4-bf6c-662d390b0a95",
+		"name": "Sistema de Reserva de Turnos",
+		"description": "# Especialización en BackEnd III\n\n**Desafío Final**",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20454160"
+	},
+	"item": [
+		{
+			"name": "GET-Dentista-ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/dentistas/1"
+			},
+			"response": []
+		},
+		{
+			"name": "POST-Dentista",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"apellido\": \"Polo\",\r\n    \"nombre\": \"Marco\",\r\n    \"matricula\": \"123ASD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/dentistas"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT-Dentista",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"apellido\": \"King\",\r\n    \"nombre\": \"Stephen\",\r\n    \"matricula\": \"QWERTY\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/dentistas/1"
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH-Dentista",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"apellido\": \"Jackson\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/dentistas/1"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE-Dentista",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": "{{BASE_URL}}/dentistas/1"
+			},
+			"response": []
+		},
+		{
+			"name": "GET-Paciente-ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/pacientes/1"
+			},
+			"response": []
+		},
+		{
+			"name": "POST-Paciente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"John\",\r\n    \"apellido\": \"Smith\",\r\n    \"domicilio\": \"Fake Street 123\",\r\n    \"dni\": \"12345\",\r\n    \"fechaAlta\": \"28/06/2023\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/pacientes"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT-Paciente",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Marcus\",\r\n    \"apellido\": \"Watson\",\r\n    \"domicilio\": \"Sun Street 987\",\r\n    \"dni\": \"98765\",\r\n    \"fechaAlta\": \"28/06/2023\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/pacientes/1"
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH-Paciente",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"apellido\": \"Perez\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/pacientes/1"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE-Paciente",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": "{{BASE_URL}}/pacientes/1"
+			},
+			"response": []
+		},
+		{
+			"name": "GET-Turno-ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/turnos/1"
+			},
+			"response": []
+		},
+		{
+			"name": "POST-Turno",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idPaciente\": 4,\r\n    \"idDentista\": 8,\r\n    \"fecha\": \"30/06/2023\",\r\n    \"hora\": \"10:00\",\r\n    \"descripcion\": \"Revisión general\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/turnos"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT-Turno",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idPaciente\": 3,\r\n    \"idDentista\": 8,\r\n    \"fecha\": \"06/06/2023\",\r\n    \"hora\": \"10:00\",\r\n    \"descripcion\": \"Dolor de muela\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/turnos/1"
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH-Turno",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idDentista\": 3,\r\n    \"fecha\": \"09/06/2023\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/turnos/1"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE-Turno",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": "{{BASE_URL}}/turnos/1"
+			},
+			"response": []
+		},
+		{
+			"name": "GET-Turno-DNI",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/turnos?dni=98765",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"turnos"
+					],
+					"query": [
+						{
+							"key": "dni",
+							"value": "98765"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST-Turno-DNI-Matricula",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "TOKEN",
+						"value": "{{TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dniPaciente\": \"42187452\",\r\n    \"matriculaDentista\": \"02854\",\r\n    \"fecha\": \"30/06/2023\",\r\n    \"hora\": \"14:00\",\r\n    \"descripcion\": \"Brackets\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/turnos/pacientedentista"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": "my-super-secret-token",
+			"type": "string"
+		}
+	]
+}
