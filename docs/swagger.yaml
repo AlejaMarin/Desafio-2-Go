@@ -1,0 +1,12 @@
+info:
+  contact:
+    name: Alejandra Marin - Vanesa Vilte
+    url: https://github.com/AlejaMarin/Desafio-2-Go
+  description: Implementación de una API que permite administrar la reserva de turnos
+    para una clínica odontológica.
+  title: SISTEMA DE RESERVA DE TURNOS
+  version: "1.0"
+paths: {}
+schemes:
+- http
+swagger: "2.0"

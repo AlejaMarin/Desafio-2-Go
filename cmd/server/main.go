@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/AlejaMarin/Desafio-2-Go/cmd/server/handler"
+	"github.com/AlejaMarin/Desafio-2-Go/docs"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/dentista"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/paciente"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/turno"
@@ -14,10 +15,23 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func main() {
+// @title           SISTEMA DE RESERVA DE TURNOS
+// @version         1.0
+// @description     Implementación de una API que permite administrar la reserva de turnos para una clínica odontológica.
 
+// @contact.name   Alejandra Marin - Vanesa Vilte
+// @contact.url    https://github.com/AlejaMarin/Desafio-2-Go
+
+// @schemes http
+
+
+func main() {
+	
 	if err := godotenv.Load(); err != nil {
 		panic("Error loading .env file: " + err.Error())
 	}
@@ -46,6 +60,7 @@ func main() {
 	shiftHandler := handler.NewShiftHandler(shiftService)
 
 	r := gin.Default()
+	docs.SwaggerInfo.Host = "localhost:8080"
 
 	r.GET("/ping", func(c *gin.Context) { c.String(http.StatusOK, "pong") })
 
@@ -76,6 +91,7 @@ func main() {
 		shifts.GET("", shiftHandler.GetByDni())
 	}
 
+	r.GET("/swagger/*any",ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.Run(":8080")
 
 }

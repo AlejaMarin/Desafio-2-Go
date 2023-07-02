@@ -1,0 +1,16 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Implementación de una API que permite administrar la reserva de turnos para una clínica odontológica.",
+        "title": "SISTEMA DE RESERVA DE TURNOS",
+        "contact": {
+            "name": "Alejandra Marin - Vanesa Vilte",
+            "url": "https://github.com/AlejaMarin/Desafio-2-Go"
+        },
+        "version": "1.0"
+    },
+    "paths": {}
+}
