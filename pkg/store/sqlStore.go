@@ -51,7 +51,7 @@ func (s *sqlStore) CreatePatient(p domain.Paciente) (int, error) {
 
 	var id int
 
-	q := "SELECT LAST_INSERT_ID();"
+	q := "SELECT MAX(id) FROM paciente;"
 	row := s.DB.QueryRow(q)
 	err = row.Scan(&id)
 	if err != nil {
@@ -209,8 +209,8 @@ func (s *sqlStore) GetShiftById(id int) (domain.Turno, error) {
 
 	var shift domain.Turno
 
-	query := "SELECT id, idPaciente, idDentista, fecha, hora, descripcion FROM turno WHERE id = ?;"
-	row := s.DB.QueryRow(query, id)
+	query := "SELECT t.id, t.idPaciente, t.idDentista, t.fecha, t.hora, t.descripcion FROM turno t LEFT JOIN paciente p ON p.id = t.idPaciente LEFT JOIN dentista d ON d.id = t.idDentista WHERE t.id = ? AND p.activo = ? AND d.activo = ?;"
+	row := s.DB.QueryRow(query, id, true, true)
 	err := row.Scan(&shift.Id, &shift.IdPaciente, &shift.IdDentista, &shift.Fecha, &shift.Hora, &shift.Descripcion)
 	if err != nil {
 		return domain.Turno{}, err
@@ -294,15 +294,7 @@ func (s *sqlStore) DeleteShift(id int) error {
 	if err != nil {
 		return err
 	}
-	/*
-		row, err := res.RowsAffected()
-		if err != nil {
-			return err
-		}
-		if row == 0 {
-			return errors.New("El turno que se quiere eliminar no existe")
-		}
-	*/
+
 	return nil
 
 }

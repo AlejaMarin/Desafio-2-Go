@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/AlejaMarin/Desafio-2-Go/internal/domain"
 	"github.com/AlejaMarin/Desafio-2-Go/internal/paciente"
@@ -69,20 +70,25 @@ func validateEmptys(patient *domain.Paciente) (bool, error) {
 func validateDate(date string) (bool, error) {
 
 	dates := strings.Split(date, "/")
-	list := []int{}
+	//list := []int{}
 	if len(dates) != 3 {
-		return false, errors.New("Fecha de Alta Inválida, debe tener Formato: dd/mm/yyyy")
+		return false, errors.New("Fecha Inválida, debe tener Formato: dd/mm/yyyy")
 	}
 	for value := range dates {
-		number, err := strconv.Atoi(dates[value])
+		_, err := strconv.Atoi(dates[value])
 		if err != nil {
-			return false, errors.New("Fecha de Alta Inválida, deben ser Números")
+			return false, errors.New("Fecha Inválida, deben ser Números")
 		}
-		list = append(list, number)
+		//list = append(list, number)
 	}
-	condition := (list[0] < 1 || list[0] > 31) && (list[1] < 1 || list[1] > 12) && (list[2] < 1 || list[2] > 9999)
+	/* condition := (list[0] < 1 || list[0] > 31) && (list[1] < 1 || list[1] > 12) && (list[2] < 1 || list[2] > 9999)
 	if condition {
 		return false, errors.New("Fecha de Alta Inválida, debe estar entre 01/01/0001 y 31/12/9999")
+	} */
+	validDate := dates[2] + "-" + dates[1] + "-" + dates[0]
+	_, err := time.Parse("2006-01-02", validDate)
+	if err != nil {
+		return false, errors.New("Fecha Inválida |" + err.Error())
 	}
 	return true, nil
 }
