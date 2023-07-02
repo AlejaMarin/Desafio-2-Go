@@ -70,7 +70,13 @@ func (r *repository) UpdateShift(id int, t domain.Turno) (domain.Turno, error) {
 }
 
 func (r *repository) DeleteShift(id int) error {
-	err := r.storage.DeleteShift(id)
+	
+	_, err := r.GetShiftById(id)
+	if err != nil {
+		return err
+	}
+	
+	err = r.storage.DeleteShift(id)
 	if err != nil {
 		return err
 	}

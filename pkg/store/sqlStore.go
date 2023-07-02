@@ -294,15 +294,7 @@ func (s *sqlStore) DeleteShift(id int) error {
 	if err != nil {
 		return err
 	}
-	/*
-		row, err := res.RowsAffected()
-		if err != nil {
-			return err
-		}
-		if row == 0 {
-			return errors.New("El turno que se quiere eliminar no existe")
-		}
-	*/
+	
 	return nil
 
 }

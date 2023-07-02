@@ -883,9 +883,6 @@ const docTemplate = `{
                 "apellido": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "matricula": {
                     "type": "string"
                 },
@@ -916,9 +913,6 @@ const docTemplate = `{
                 "fechaAlta": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "nombre": {
                     "type": "string"
                 }
@@ -942,9 +936,6 @@ const docTemplate = `{
                 },
                 "hora": {
                     "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "idDentista": {
                     "type": "integer"

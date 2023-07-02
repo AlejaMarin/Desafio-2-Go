@@ -3,8 +3,6 @@ definitions:
     properties:
       apellido:
         type: string
-      id:
-        type: integer
       matricula:
         type: string
       nombre:
@@ -24,8 +22,6 @@ definitions:
         type: string
       fechaAlta:
         type: string
-      id:
-        type: integer
       nombre:
         type: string
     required:
@@ -43,8 +39,6 @@ definitions:
         type: string
       hora:
         type: string
-      id:
-        type: integer
       idDentista:
         type: integer
       idPaciente:

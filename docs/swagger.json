@@ -877,9 +877,6 @@
                 "apellido": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "matricula": {
                     "type": "string"
                 },
@@ -910,9 +907,6 @@
                 "fechaAlta": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "nombre": {
                     "type": "string"
                 }
@@ -936,9 +930,6 @@
                 },
                 "hora": {
                     "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "idDentista": {
                     "type": "integer"
