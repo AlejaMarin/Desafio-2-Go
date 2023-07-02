@@ -66,7 +66,12 @@ func (r *repository) UpdatePatient(id int, p domain.Paciente) (domain.Paciente, 
 
 func (r *repository) DeletePatient(id int) error {
 
-	err := r.storage.DeletePatient(id)
+	_, err := r.GetPatientById(id)
+	if err != nil {
+		return err
+	}
+
+	err = r.storage.DeletePatient(id)
 	if err != nil {
 		return err
 	}
