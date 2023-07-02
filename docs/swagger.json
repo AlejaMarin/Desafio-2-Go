@@ -268,6 +268,197 @@
                     }
                 }
             }
+        },
+        "/turnos": {
+            "get": {
+                "description": "Obtener turno por DNI del paciente",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Obtener turno",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dni",
+                        "name": "dni",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.TurnoByDni"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/turnos/pacientedentista": {
+            "post": {
+                "description": "Agregar turno por DNI del paciente y matrícula del dentista",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Agregar turno",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Body shift",
+                        "name": "turno",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.TurnoDos"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Turno"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/turnos/{id}": {
+            "delete": {
+                "description": "Eliminar un turno por ID",
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Eliminar turno",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Actualizar un turno por alguno de sus campos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Actualizar turno",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.RequestTurno"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Turno"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -293,6 +484,120 @@
                 }
             }
         },
+        "domain.Paciente": {
+            "type": "object",
+            "required": [
+                "apellido",
+                "dni",
+                "domicilio",
+                "fechaAlta",
+                "nombre"
+            ],
+            "properties": {
+                "apellido": {
+                    "type": "string"
+                },
+                "dni": {
+                    "type": "string"
+                },
+                "domicilio": {
+                    "type": "string"
+                },
+                "fechaAlta": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nombre": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.Turno": {
+            "type": "object",
+            "required": [
+                "descripcion",
+                "fecha",
+                "hora",
+                "idDentista",
+                "idPaciente"
+            ],
+            "properties": {
+                "descripcion": {
+                    "type": "string"
+                },
+                "fecha": {
+                    "type": "string"
+                },
+                "hora": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "idDentista": {
+                    "type": "integer"
+                },
+                "idPaciente": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.TurnoByDni": {
+            "type": "object",
+            "required": [
+                "dentista",
+                "descripcion",
+                "fecha",
+                "hora",
+                "paciente"
+            ],
+            "properties": {
+                "dentista": {
+                    "$ref": "#/definitions/domain.Dentista"
+                },
+                "descripcion": {
+                    "type": "string"
+                },
+                "fecha": {
+                    "type": "string"
+                },
+                "hora": {
+                    "type": "string"
+                },
+                "paciente": {
+                    "$ref": "#/definitions/domain.Paciente"
+                }
+            }
+        },
+        "domain.TurnoDos": {
+            "type": "object",
+            "required": [
+                "descripcion",
+                "dniPaciente",
+                "fecha",
+                "hora",
+                "matriculaDentista"
+            ],
+            "properties": {
+                "descripcion": {
+                    "type": "string"
+                },
+                "dniPaciente": {
+                    "type": "string"
+                },
+                "fecha": {
+                    "type": "string"
+                },
+                "hora": {
+                    "type": "string"
+                },
+                "matriculaDentista": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.Request": {
             "type": "object",
             "properties": {
@@ -304,6 +609,26 @@
                 },
                 "nombre": {
                     "type": "string"
+                }
+            }
+        },
+        "handler.RequestTurno": {
+            "type": "object",
+            "properties": {
+                "descripcion": {
+                    "type": "string"
+                },
+                "fecha": {
+                    "type": "string"
+                },
+                "hora": {
+                    "type": "string"
+                },
+                "idDentista": {
+                    "type": "integer"
+                },
+                "idPaciente": {
+                    "type": "integer"
                 }
             }
         },

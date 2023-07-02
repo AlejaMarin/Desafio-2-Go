@@ -14,6 +14,86 @@ definitions:
     - matricula
     - nombre
     type: object
+  domain.Paciente:
+    properties:
+      apellido:
+        type: string
+      dni:
+        type: string
+      domicilio:
+        type: string
+      fechaAlta:
+        type: string
+      id:
+        type: integer
+      nombre:
+        type: string
+    required:
+    - apellido
+    - dni
+    - domicilio
+    - fechaAlta
+    - nombre
+    type: object
+  domain.Turno:
+    properties:
+      descripcion:
+        type: string
+      fecha:
+        type: string
+      hora:
+        type: string
+      id:
+        type: integer
+      idDentista:
+        type: integer
+      idPaciente:
+        type: integer
+    required:
+    - descripcion
+    - fecha
+    - hora
+    - idDentista
+    - idPaciente
+    type: object
+  domain.TurnoByDni:
+    properties:
+      dentista:
+        $ref: '#/definitions/domain.Dentista'
+      descripcion:
+        type: string
+      fecha:
+        type: string
+      hora:
+        type: string
+      paciente:
+        $ref: '#/definitions/domain.Paciente'
+    required:
+    - dentista
+    - descripcion
+    - fecha
+    - hora
+    - paciente
+    type: object
+  domain.TurnoDos:
+    properties:
+      descripcion:
+        type: string
+      dniPaciente:
+        type: string
+      fecha:
+        type: string
+      hora:
+        type: string
+      matriculaDentista:
+        type: string
+    required:
+    - descripcion
+    - dniPaciente
+    - fecha
+    - hora
+    - matriculaDentista
+    type: object
   handler.Request:
     properties:
       apellido:
@@ -22,6 +102,19 @@ definitions:
         type: string
       nombre:
         type: string
+    type: object
+  handler.RequestTurno:
+    properties:
+      descripcion:
+        type: string
+      fecha:
+        type: string
+      hora:
+        type: string
+      idDentista:
+        type: integer
+      idPaciente:
+        type: integer
     type: object
   web.errorResponse:
     properties:
@@ -212,6 +305,133 @@ paths:
       summary: Actualizar dentista
       tags:
       - Dentistas
+  /turnos:
+    get:
+      description: Obtener turno por DNI del paciente
+      parameters:
+      - description: dni
+        in: query
+        name: dni
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.TurnoByDni'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Obtener turno
+      tags:
+      - Turnos
+  /turnos/{id}:
+    delete:
+      description: Eliminar un turno por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Eliminar turno
+      tags:
+      - Turnos
+    patch:
+      consumes:
+      - application/json
+      description: Actualizar un turno por alguno de sus campos
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.RequestTurno'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Actualizar turno
+      tags:
+      - Turnos
+  /turnos/pacientedentista:
+    post:
+      consumes:
+      - application/json
+      description: Agregar turno por DNI del paciente y matrícula del dentista
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Body shift
+        in: body
+        name: turno
+        required: true
+        schema:
+          $ref: '#/definitions/domain.TurnoDos'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Agregar turno
+      tags:
+      - Turnos
 schemes:
 - http
 swagger: "2.0"
