@@ -103,6 +103,19 @@ definitions:
       nombre:
         type: string
     type: object
+  handler.RequestPaciente:
+    properties:
+      apellido:
+        type: string
+      dni:
+        type: string
+      domicilio:
+        type: string
+      fechaAlta:
+        type: string
+      nombre:
+        type: string
+    type: object
   handler.RequestTurno:
     properties:
       descripcion:
@@ -305,6 +318,177 @@ paths:
       summary: Actualizar dentista
       tags:
       - Dentistas
+  /pacientes:
+    post:
+      consumes:
+      - application/json
+      description: Crear paciente
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Body patient
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Paciente'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Paciente'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Agregar paciente
+      tags:
+      - Pacientes
+  /pacientes/{id}:
+    delete:
+      description: Eliminar un paciente por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Eliminar paciente
+      tags:
+      - Pacientes
+    get:
+      description: Obtener paciente por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Paciente'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Obtener paciente
+      tags:
+      - Pacientes
+    patch:
+      consumes:
+      - application/json
+      description: Actualizar un paciente por alguno de sus campos
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.RequestPaciente'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Paciente'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Actualizar paciente
+      tags:
+      - Pacientes
+    put:
+      consumes:
+      - application/json
+      description: Actualizar paciente por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Body patient
+        in: body
+        name: dentista
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Paciente'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Paciente'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Actualizar paciente
+      tags:
+      - Pacientes
   /turnos:
     get:
       description: Obtener turno por DNI del paciente
@@ -328,6 +512,36 @@ paths:
           schema:
             $ref: '#/definitions/web.errorResponse'
       summary: Obtener turno
+      tags:
+      - Turnos
+    post:
+      consumes:
+      - application/json
+      description: Agregar turno
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Body shift
+        in: body
+        name: turno
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Agregar turno
       tags:
       - Turnos
   /turnos/{id}:
@@ -358,6 +572,32 @@ paths:
       summary: Eliminar turno
       tags:
       - Turnos
+    get:
+      description: Obtener turno por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Obtener turno
+      tags:
+      - Turnos
     patch:
       consumes:
       - application/json
@@ -379,6 +619,49 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/handler.RequestTurno'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.errorResponse'
+      summary: Actualizar turno
+      tags:
+      - Turnos
+    put:
+      consumes:
+      - application/json
+      description: Actualizar turno por ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Body shift
+        in: body
+        name: turno
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
       produces:
       - application/json
       responses:
